@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>五运六气推演</title>
+    <style>
+        #result {
+            margin-top: 20px;
+            color: black;
+        }
+
+        #cycleResult {
+            margin-top: 20px;
+            color: black;
+        }
+
+        .green { color: green; }
+        .red { color: red; }
+        .dark-red { color: darkred; }
+        .yellow { color: yellow; }
+        .blue { color: blue; }
+        .brown { color: brown; }
+    </style>
+    <script>
+        function displayResult(selectedOption) {
+            const contentMap = {
+                '初之气': '<span class="green">1月20日~3月19日 厥阴风木</span> <span class="red">少阳相火;</span> 大寒, 立春, 雨水, 惊蛰',
+                '二之气': '<span class="dark-red">3月20日~5月19日 少阴君火</span> <span class="yellow">阳明燥金;</span> 春分, 清明, 谷雨, 立夏',
+                '三之气': '5月20日~7月21日 <span class="dark-red">少阳相火</span> <span class="blue">太阳寒水;</span> 小满, 芒种, 夏至, 小暑',
+                '四之气': '7月22日~9月21日 <span class="brown">太阴湿土</span> <span class="green">厥阴风木;</span> 大暑, 立秋, 处暑, 白露',
+                '五之气': '9月22日~11月21日 <span class="yellow">阳明燥金</span> <span class="dark-red">少阴君火;</span> 秋分, 寒露, 霜降, 立冬',
+                '终之气': '11月22日~1月20日 <span class="blue">太阳寒水</span> <span class="brown">太阴湿土;</span> 小雪, 大雪, 冬至, 小寒'
+            };
+
+            const selectedContent = contentMap[selectedOption];
+            document.getElementById('result').innerHTML = selectedContent;
+        }
+
+        function displayCycle(selectedCycle) {
+            const cycleContentMap = {
+                '初运': '<span class="green">1月20日~4月2日 木运（风）</span> <span class="brown">土运（湿）</span>',
+                '二运': '<span class="dark-red">4月2日~6月15日 火运（热）</span> <span class="yellow">金运（燥）</span>',
+                '三运': '6月15日~8月29日 <span class="brown">土运（湿）</span> <span class="blue">水运（寒）</span>',
+                '四运': '8月29日~11月11日 <span class="yellow">金运（燥）</span> <span class="green">木运（风）</span>',
+                '终运': '11月11日~1月20日 <span class="blue">水运（寒）</span> <span class="dark-red">火运（热）</span>'
+            };
+
+            const selectedCycleContent = cycleContentMap[selectedCycle];
+            document.getElementById('cycleResult').innerHTML = selectedCycleContent;
+        }
+
+        function displayCurrentDate() {
+            const currentDate = new Date();
+            const currentDateString = currentDate.toISOString().split('T')[0];
+            document.getElementById('dateInput').value = currentDateString;
+            displayFiveCycle(currentDate);
+        }
+
+        function displayFiveCycle(date) {
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            let fiveCycle = '';
+            
+            // 判断月份和日期，设置相应的五运
+            if ((month === 1 && day >= 20) || (month === 2) || (month === 3 && day <= 19)) {
+                fiveCycle = '初运';
+            } else if ((month === 3 && day >= 20) || (month === 4) || (month === 5 && day <= 19)) {
+                fiveCycle = '二运';
+            } else if ((month === 5 && day >= 20) || (month === 6) || (month === 7 && day <= 21)) {
+                fiveCycle = '三运';
+            } else if ((month === 7 && day >= 22) || (month === 8) || (month === 9 && day <= 21)) {
+                fiveCycle = '四运';
+            } else {
+                fiveCycle = '终运';
+            }
+
+            // 显示计算结果
+            document.getElementById('cycleResult').innerText = `五运：${fiveCycle}`;
+        }
+    </script>
+</head>
+<body onload="displayCurrentDate()">
+    <h1>五运六气推演</h1>
+    <label for="selectOption">请选择六气：</label>
+    <select id="selectOption" onchange="displayResult(this.value)">
+        <option value="初之气">初之气</option>
+        <option value="二之气">二之气</option>
+        <option value="三之气">三之气</option>
+        <option value="四之气">四之气</option>
+        <option value="五之气">五之气</option>
+        <option value="终之气">终之气</option>
+    </select>
+    <div id="result"></div>
+
+    <h2>六气按钮和下拉选择</h2>
+    <label for="selectCycle">请选择五运：</label>
+    <select id="selectCycle" onchange="displayCycle(this.value)">
+        <option value="初运">初运</option>
+        <option value="二运">二运</option>
+        <option value="三运">三运</option>
+        <option value="四运">四运</option>
+        <option value="终运">终运</option>
+    </select>
+    <div id="cycleResult"></div>
+
+    <h2>当前日期</h2>
+    <input type="date" id="dateInput" onchange="displayFiveCycle(new Date(this.value))">
+</body>
+</html>
